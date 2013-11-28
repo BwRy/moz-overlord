@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="shortcut icon" href="static/assets/ico/favicon.png">-->
+
+    <title>Overlord</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="static/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="static/overlord.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Wrap all page content here -->
+    <div id="wrap">
+
+      <!-- Fixed navbar -->
+      <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Overlord v0.1</a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Home</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <!-- Begin page content -->
+      <div class="container">
+          <ul class="nav nav-pills pull-left">
+            <li class="active">
+              <a href="/overlord/index?group=IT">IT</a>
+            </li>
+            <li class="active">
+              <a href="/overlord/index?group=Marketplace">Marketplace</a>
+            </li>
+            <li class="active">
+              <a href="/overlord/index?group=Engagement">Engagement</a>
+            </li>
+            <li class="active">
+              <a href="/overlord/index?group=Mozilla+Foundation">Mozilla Foundation</a>
+            </li>
+          </ul>
+          <span class="label label-danger pull-right">{{.Score | printf "%.2f"}}</span>
+      </div>
+
+      <div class="container">
+        {{range $index,$result := .Results}}
+        <h3 style="text-overflow: hidden; text-transform:uppercase;" class="site-title-big">{{$result.Site.Host}} <span class="label label-danger pull-right">{{$result.Results.Score | printf "%.2f"}}</span></h3>
+
+        {{range $index, $dataSourceResults := $result.Results.DataSourceResults}}
+        <h4 style="text-overflow: hidden; text-transform:uppercase;" class="site-title-big">{{$dataSourceResults.Source}}<span class="label label-danger pull-right">{{$dataSourceResults.Score | printf "%.2f"}}</span></h4>
+          <ul style="list-style: none;">
+          {{range $index,$issue := $dataSourceResults.Issues}}
+            <li ng-repeat="bug in site.bugs" style="margin-bottom: 2px;">
+              <a href="{{$issue.DetailLink}}" target="_blank">
+                <span>{{$issue.Description}}</span>
+              </a>
+              <span class="pull-right">
+                <span class="severity-label">
+                  <span style="width: 100%;" class="label label-info">{{$issue.Severity}}</span>
+                </span>
+                <span style="width: 100%;" class="label label-danger">{{$issue.Score | printf "%.2f"}}</span>
+              </span>
+            </li>
+          {{end}}
+          </ul>
+        {{end}}
+
+          <p>&nbsp;</p>
+
+        {{end}}
+      </div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted credit">Code at <a href="https://github.com/st3fan/overlord">github.com/st3fan/overlord</a></p>
+      </div>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="static/jquery-1.10.2.js"></script>
+    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
